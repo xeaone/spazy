@@ -1,0 +1,31 @@
+{
+  "name": "spazy",
+  "version": "1.0.0",
+  "description": "Static single page application and handlers for hapi.js",
+  "main": "index.js",
+  "dependencies": {
+    "inert": "^4.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexanderElias/spazy.git"
+  },
+  "keywords": [
+    "spa",
+    "static",
+    "file",
+    "directory",
+    "serve",
+    "hapi"
+  ],
+  "author": "Alexander Elias",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/AlexanderElias/spazy/issues"
+  },
+  "homepage": "https://github.com/AlexanderElias/spazy#readme"
+}
