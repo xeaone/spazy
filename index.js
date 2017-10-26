@@ -1,119 +1,56 @@
 'use strict';
 
+const Handler = require('./lib/handler');
 const Package = require('./package');
-const Path = require('path');
+const Hoek = require('hoek');
 
-function hasExtension (path) {
-	return Path.extname(path) !== '';
+const defaults = {
+	spa: true,
+	base: '/',
+	folder: '.',
+	trailing: false,
+	file: 'index.html'
 };
 
-function parsePath (path, base) {
-	path = Url.parse(path).pathname;
-	path = Path.normalize(path);
-	path = Path.extname(path) === '' ? Path.join(path, 'index.html') : path;
-	path = Path.join(base, path);
-	return path;
-};
+exports.register = function (server, options, next) {
 
-function file (options, callback) {
-	options = options || {};
+	const settings = Hoek.applyToDefaults(defaults, options);
 
-	var hasExtension = self.hasExtension(options.path);
-	options.path = self.parsePath(options.path);
+	server.handler('spazy', function (route, opt) {
+		return function (request, response) {
+			opt = Hoek.applyToDefaults(settings, opt || {});
 
-	Fs.stat(options.path, function (error, stat) {
-		if (error) {
-			if (error.code === ENOENT) {
-				if (options.spa) {
-					if (hasExtension) {
-						return callback(404);
-					} else {
-						return callback(null, Path.join(options.base, 'index.html'));
-					}
-				} else {
-					return callback(404);
-				}
-			} else if (error.code === EACCESS) {
-				return callback(403);
-			} else {
-				return callback(500);
+			let path = opt.path;
+
+			if (path === '*') {
+				path = request.path;
+			} else if (!path) {
+				throw new Error('spazy path options is missing');
 			}
-		} else {
-			if (stat.isFile()) {
-				return callback(null, options.path);
-			} else if (stat.isDirectory()) {
-				return callback(null, Path.join(options.base, 'index.html'));
-			} else {
-				return callback(500);
-			}
-		}
-	});
-}
 
-function handler () {
+			const self = {
+				request: request,
+				response: response,
+				file: response.file,
+				redirect: response.redirect
+			};
 
-}
-
-function response (path, options, request) {
-	const confineDir = Path.resolve(request.route.settings.files.relativeTo, options.confine);
-	path = Path.isAbsolute(path) ? Path.normalize(path) : Path.join(confineDir, path);
-
-	// verify that resolved path is in confineDir
-	if (path.lastIndexOf(confineDir, 0) !== 0) {
-		path = null;
-	}
-
-	file(options, function (code, path) {
-		// var result, stream;
-		//
-		// var header = {
-		// 	path: path,
-		// 	code: code,
-		// 	cors: self.cors,
-		// 	cache: self.cache
-		// };
-
-		if (code) {
-			header = Utility.createHeader(header);
-			result = Utility.statusString(code);
-			response.writeHead(code, header);
-			response.end(result);
-		} else {
-			stream = Fs.createReadStream(path);
-
-			stream.setEncoding(UTF8);
-
-			stream.on('error', function () {
-				code = 500;
-				header = Utility.createHeader(header);
-				result = Utility.statusString(code);
-				response.writeHead(code, header);
-				response.end(result);
-			});
-
-			stream.on('open', function () {
-				code = 200;
-				header = Utility.createHeader(header);
-				response.writeHead(code, header);
-			});
-
-			stream.on('close', function () {
-				response.end();
-			});
-
-			stream.pipe(response);
+			return Handler.call(self, path, opt);
 		}
 	});
 
-}
+	server.decorate('reply', 'spazy', function (path, opt) {
+		opt = Hoek.applyToDefaults(settings, opt || {});
+		return Handler.call(this, path, opt);
+	});
 
-exports.plugin = {
+	next();
+};
+
+exports.register.attributes = {
+    once: true,
 	pkg: Package,
-	once: true,
-	register: function (server) {
-		server.decorate('handler', 'spazy', handler);
-		server.decorate('toolkit', 'spazy', function (path, options) {
-			return this.response(response(path, options, this.request));
-		});
-	}
-}
+	name: 'spazy',
+	connections: false,
+	dependencies: 'inert'
+};
