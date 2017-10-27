@@ -2,11 +2,12 @@
 # Spazy
 Static and single page application plugin for hapi.js. Spazy uses the tried and true inert to handle the file serving.
 
-## Support
-Built for hapi.js version 16.x.x.
-
 ## Install
 `npm i spazy --save`
+
+## Requirements
+- hapi v16.X.X
+- inert v4.X.X
 
 ## Example
 ```js
@@ -20,7 +21,7 @@ server.connection({ port: 8080 });
 
 server.register([
 	{
-		register: require('inert') // required dependency
+		register: require('inert')
 	},
 	{
 		register: require('spazy'),
