@@ -38,18 +38,13 @@ server.route([
 		method: 'GET',
 		path: '/{path*}',
 		handler: function (req, res) {
-			res.spazy(req.params.path)
-			// return Promise.resolve().then(function () {
-			// 	return res.spazy(req.params.path);
-			// }).then(function (r) {
-			// 	r.code(302);
-			// }).catch(function (error) {
-			// 	console.log(error);
-			// });
+			return res.spazy(req.url);
+			// return res.spazy(req.params.path);
 		}
 	}
 ]);
 
 server.start(function () {
-	console.log('started');
+	console.log(`Server - Running: ${server.info.uri}`);
+	console.log(server.info);
 });

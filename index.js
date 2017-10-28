@@ -20,14 +20,6 @@ exports.register = function (server, options, next) {
 		return function (request, response) {
 			opt = Hoek.applyToDefaults(settings, opt || {});
 
-			let path = opt.path;
-
-			if (path === '*') {
-				path = request.path;
-			} else if (!path) {
-				throw new Error('spazy path options is missing');
-			}
-
 			const self = {
 				request: request,
 				response: response,
@@ -35,13 +27,19 @@ exports.register = function (server, options, next) {
 				redirect: response.redirect
 			};
 
-			return Handler.call(self, path, opt);
+			let url = opt.path;
+
+			if (!url || url === '*') {
+				url = request.url;
+			}
+
+			return Handler.call(self, url, opt);
 		}
 	});
 
-	server.decorate('reply', 'spazy', function (path, opt) {
+	server.decorate('reply', 'spazy', function (url, opt) {
 		opt = Hoek.applyToDefaults(settings, opt || {});
-		return Handler.call(this, path, opt);
+		return Handler.call(this, url, opt);
 	});
 
 	next();
