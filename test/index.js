@@ -1,50 +1,48 @@
+'use strict';
+
 const Hapi = require('hapi');
 const Inert = require('inert');
-const Spazy = require('spazy');
+const Spazy = require('../index');
 
-const server = new Hapi.Server();
+(async function() {
 
-server.connection({
-	port: 8080
-});
+	const server = new Hapi.Server({ port: 8080 });
 
-server.register([
-	{
-		register: Inert
-	},
-	{
-		register: Spazy,
-		options: {
-			folder: __dirname + '/public'
-		}
-	}
-], function (error) {
-	if (error) throw error;
-});
-
-server.route([
-	{
-		method: 'GET',
-		path: '/nonspa/{path*}',
-		handler: {
-			spazy: {
-				spa: false,
-				path: '*',
-				base: 'nonspa'
+	await server.register([
+		{
+			plugin: Inert
+		},
+		{
+			plugin: Spazy,
+			options: {
+				folder: __dirname + '/public'
 			}
 		}
-	},
-	{
-		method: 'GET',
-		path: '/{path*}',
-		handler: function (req, res) {
-			return res.spazy(req.url);
-			// return res.spazy(req.params.path);
-		}
-	}
-]);
+	]);
 
-server.start(function () {
-	console.log(`Server - Running: ${server.info.uri}`);
-	console.log(server.info);
-});
+	server.route([
+		{
+			method: 'GET',
+			path: '/nonspa/{path*}',
+			handler: {
+				spazy: {
+					spa: false,
+					path: '*',
+					base: '/nonspa'
+				}
+			}
+		},
+		{
+			method: 'GET',
+			path: '/{path*}',
+			handler: async function (req, res) {
+				return res.spazy(req.params.path);
+			}
+		}
+	]);
+
+	await server.start();
+
+	console.log(`Spazy: ${server.info.uri}`);
+
+}());

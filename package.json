@@ -1,22 +1,25 @@
 {
 	"name": "spazy",
-	"version": "1.2.3",
+	"version": "2.0.0",
 	"description": "Static and single page application plugin for hapi.js",
 	"main": "index.js",
 	"dependencies": {
-		"boom": "^6.0.0",
-		"hoek": "^5.0.1"
+		"boom": "^7.1.1",
+		"hoek": "^5.0.2"
 	},
 	"engines": {
-		"node": ">= 4.x.x"
+		"node": ">= 7.6.0"
 	},
 	"peerDependencies": {
-		"hapi": ">= 16",
-		"inert": ">= 4.x.x"
+		"hapi": ">= 17.x.x",
+		"inert": ">= 5.x.x"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"hapi": "^17.0.2",
+		"inert": "^5.0.1"
+	},
 	"scripts": {
-		"test": "node test/index"
+		"t": "node test/index"
 	},
 	"repository": {
 		"type": "git",

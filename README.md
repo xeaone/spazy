@@ -6,8 +6,8 @@ Static and single page application plugin for hapi.js. Spazy uses the tried and 
 `npm i spazy --save`
 
 ## Requirements
-- hapi v16.X.X
-- inert v4.X.X
+- hapi v17.X.X
+- inert v5.X.X
 
 ## Example
 ```js

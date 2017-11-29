@@ -12,43 +12,34 @@ const defaults = {
 	file: 'index.html'
 };
 
-exports.register = function (server, options, next) {
-
-	const settings = Hoek.applyToDefaults(defaults, options);
-
-	server.handler('spazy', function (route, opt) {
-		return function (request, response) {
-			opt = Hoek.applyToDefaults(settings, opt || {});
-
-			const self = {
-				request: request,
-				response: response,
-				file: response.file,
-				redirect: response.redirect
-			};
-
-			let url = opt.path;
-
-			if (!url || url === '*') {
-				url = request.url;
-			}
-
-			return Handler.call(self, url, opt);
-		}
-	});
-
-	server.decorate('reply', 'spazy', function (url, opt) {
-		opt = Hoek.applyToDefaults(settings, opt || {});
-		return Handler.call(this, url, opt);
-	});
-
-	next();
-};
-
-exports.register.attributes = {
-    once: true,
+exports.plugin = {
+	once: true,
 	pkg: Package,
 	name: 'spazy',
-	connections: false,
-	dependencies: 'inert'
+	dependencies: 'inert',
+	register: function (server, options) {
+
+		const settings = Hoek.applyToDefaults(defaults, options);
+
+		server.decorate('handler', 'spazy', function (_, opt) {
+			return async function (request, response) {
+				opt = Hoek.applyToDefaults(settings, opt || {});
+
+				let url = opt.path;
+
+				if (!url || url === '*') {
+					url = request.url;
+				}
+
+				return Handler(response, url, opt);
+			}
+		});
+
+		server.decorate('toolkit', 'spazy', function (url, opt) {
+			opt = Hoek.applyToDefaults(settings, opt || {});
+
+			return Handler(this, url, opt);
+		});
+
+	}
 };
