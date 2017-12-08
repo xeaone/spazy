@@ -4,9 +4,10 @@ const Hapi = require('hapi');
 const Inert = require('inert');
 const Spazy = require('../index');
 
-(async function() {
+(async function() { try {
 
-	const server = new Hapi.Server({ port: 8080 });
+	const options = { port: 8080 };
+	const server = new Hapi.Server(options);
 
 	await server.register([
 		{
@@ -26,17 +27,26 @@ const Spazy = require('../index');
 			path: '/nonspa/{path*}',
 			handler: {
 				spazy: {
-					spa: false,
 					path: '*',
+					spa: false,
 					base: '/nonspa'
 				}
 			}
 		},
 		{
 			method: 'GET',
+			path: '/subspa/{path*}',
+			handler: async function (req, res) {
+				return res.spazy(req.url, {
+					base: '/subspa'
+				});
+			}
+		},
+		{
+			method: 'GET',
 			path: '/{path*}',
 			handler: async function (req, res) {
-				return res.spazy(req.params.path);
+				return res.spazy(req.url);
 			}
 		}
 	]);
@@ -45,4 +55,4 @@ const Spazy = require('../index');
 
 	console.log(`Spazy: ${server.info.uri}`);
 
-}());
+} catch (e) { console.log(e); } }());

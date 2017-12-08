@@ -15,22 +15,21 @@ const Hapi = require('hapi');
 const Inert = require('inert');
 const Spazy = require('spazy');
 
-const server = new Hapi.Server();
+const options = { port: 8080 };
+const server = new Hapi.Server(options);
 
-server.connection({ port: 8080 });
-
-server.register([
+await server.register([
 	{
-		register: require('inert')
+		plugin: require('inert')
 	},
 	{
-		register: require('spazy'),
+		plugin: require('spazy'),
 		options: {
 			folder: '.',
 			file: 'index.html'
 		}
 	}
-], function (error) { if (error) throw error; });
+]);
 
 server.route([
 	{
@@ -45,13 +44,13 @@ server.route([
 	{
 		method: 'GET',
 		path: '/{path*}',
-		handler: function (req, res) {
-			return res.spazy(req.params.path);
+		handler: async function (req, res) {
+			return res.spazy(req.url);
 		}
 	}
 ]);
 
-server.start();
+await server.start();
 ```
 
 ## API
@@ -62,7 +61,7 @@ Options can be used for register, response.spazy, and handler.spazy. Options use
 - `folder: String` the default folder to serve files **.**
 - `spa: Boolean` single page application mode **default true**
 - `trailing: Boolean` redirect trailing slash **default false**
-- `base: String` will set the base path. Usefull for serving content from non root path **default /**
+- `base: String` will change the base path for spa index.html file. Usefull for serving content from non root path **default /**
 
 ### `response.spazy(path, [options])`
 Transmits a file from the file system via a handler function. Returns a promise.
