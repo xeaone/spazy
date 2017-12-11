@@ -62,6 +62,12 @@ Options can be used for register, response.spazy, and handler.spazy. Options use
 - `spa: Boolean` single page application mode **default true**
 - `trailing: Boolean` redirect trailing slash **default false**
 - `base: String` will change the base path for spa index.html file. Usefull for serving content from non root path **default /**
+- `end: Inert Option`
+- `mode: Inert Option`
+- `start: Inert Option`
+- `lookupMap: Inert Option`
+- `etagMethod: Inert Option`
+- `lookupCompressed: Inert Option`
 
 ### `response.spazy(path, [options])`
 Transmits a file from the file system via a handler function. Returns a promise.

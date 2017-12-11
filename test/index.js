@@ -4,7 +4,7 @@ const Hapi = require('hapi');
 const Inert = require('inert');
 const Spazy = require('../index');
 
-(async function() { try {
+(async function () {
 
 	const options = { port: 8080 };
 	const server = new Hapi.Server(options);
@@ -55,4 +55,6 @@ const Spazy = require('../index');
 
 	console.log(`Spazy: ${server.info.uri}`);
 
-} catch (e) { console.log(e); } }());
+}()).catch(function (error) {
+	console.error(error);
+});
