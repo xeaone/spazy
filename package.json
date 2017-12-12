@@ -1,6 +1,6 @@
 {
 	"name": "spazy",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"description": "Static and single page application plugin for hapi.js",
 	"main": "index.js",
 	"dependencies": {
