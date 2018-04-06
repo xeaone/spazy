@@ -8,9 +8,10 @@ const defaults = {
 	spa: true,
 	base: '/',
 	folder: '.',
+	redirects: [],
 	secure: false,
 	trailing: false,
-	file: 'index.html'
+	file: 'index.html',
 };
 
 exports.plugin = {
