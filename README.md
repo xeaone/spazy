@@ -61,7 +61,8 @@ Options can be used for register, response.spazy, and handler.spazy. Options use
 - `folder: String` the default folder to serve files **.**
 - `spa: Boolean` single page application mode **default true**
 - `trailing: Boolean` redirect trailing slash **default false**
-- `base: String` will change the base path for spa index.html file. Usefull for serving content from non root path **default /**
+- `base: String` will change the base path for spa index.html file. Useful for serving content from non root path **default /**
+- `secure: Boolean` redirect http to https **default false**
 - `end: Inert Option`
 - `mode: Inert Option`
 - `start: Inert Option`

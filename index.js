@@ -8,6 +8,7 @@ const defaults = {
 	spa: true,
 	base: '/',
 	folder: '.',
+	secure: false,
 	trailing: false,
 	file: 'index.html'
 };
