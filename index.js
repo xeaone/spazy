@@ -2,7 +2,7 @@
 
 const Handler = require('./lib/handler');
 const Package = require('./package');
-const Hoek = require('hoek');
+const Hoek = require('@hapi/hoek');
 
 const defaults = {
 	spa: true,

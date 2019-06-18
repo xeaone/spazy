@@ -1,7 +1,7 @@
 'use strict';
 
-const Hapi = require('hapi');
-const Inert = require('inert');
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
 const Spazy = require('../index');
 
 (async function () {
@@ -55,6 +55,4 @@ const Spazy = require('../index');
 
 	console.log(`Spazy: ${server.info.uri}`);
 
-}()).catch(function (error) {
-	console.error(error);
-});
+}()).catch(console.error);
