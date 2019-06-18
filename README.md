@@ -6,13 +6,13 @@ Static and single page application plugin for hapi.js. Spazy uses the tried and 
 `npm i spazy --save`
 
 ## Requirements
-- hapi v17.X.X
+- hapi v18.X.X
 - inert v5.X.X
 
 ## Example
 ```js
-const Hapi = require('hapi');
-const Inert = require('inert');
+const Hapi = require('@hapi/hapi');
+const Inert = require('@hapi/inert');
 const Spazy = require('spazy');
 
 const options = { port: 8080 };
@@ -86,7 +86,7 @@ Transmits a file from the file system via a handler object.
 - `options: Object` see above options
 
 ## Authors
-[AlexanderElias](https://github.com/AlexanderElias)
+[Alexander Elias](https://github.com/vokeio)
 
 ## License
 [Why You Should Choose MPL-2.0](http://veldstra.org/2016/12/09/you-should-choose-mpl2-for-your-opensource-project.html)
