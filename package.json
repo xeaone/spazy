@@ -1,11 +1,11 @@
 {
 	"name": "spazy",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "Static and single page application plugin for hapi.js",
 	"main": "index.js",
 	"dependencies": {
-		"@hapi/boom": "^7.4.2",
-		"@hapi/hoek": "^7.1.0"
+		"@hapi/boom": "^7.4.7",
+		"@hapi/hoek": "^8.2.4"
 	},
 	"engines": {
 		"node": ">= 7.6.0"
@@ -14,13 +14,16 @@
 		"@hapi/hapi": ">= 18.x.x",
 		"@hapi/inert": ">= 5.x.x"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"@hapi/hapi": "^18.4.0",
+		"@hapi/inert": "^5.2.2"
+	},
 	"scripts": {
 		"t": "node test/index"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/AlexanderElias/spazy.git"
+		"url": "git+https://github.com/vokeio/spazy.git"
 	},
 	"keywords": [
 		"spa",
@@ -36,7 +39,7 @@
 	"author": "Alexander Elias",
 	"license": "MPL-2.0",
 	"bugs": {
-		"url": "https://github.com/AlexanderElias/spazy/issues"
+		"url": "https://github.com/vokeio/spazy/issues"
 	},
-	"homepage": "https://github.com/AlexanderElias/spazy#readme"
+	"homepage": "https://github.com/vokeio/spazy#readme"
 }
